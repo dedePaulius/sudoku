@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sudoku</title>
+    <style>
+        table.inner td {
+            width: 50px;
+            height: 50px;
+            background-color: #bababa;
+            text-align: center;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        table.inner td.fixed {
+            font-size: 20px;
+            font-weight: bolder;
+        }
+
+        table.inner td.invalid {
+            background-color: red;
+        }
+
+    </style>
+
+    <script>
+
+        var data = [
+        [[[null, null, 7], [null, null, null], [4, null, null]], [[null,3, null], [2,null,5], [9,null,6]], [[8,null, null], [null, null, null], [null, null,1]]],
+        [[[null,4,3], [1,null,null], [null,5,8]], [[null,null, null], [null, null, null], [null, null, null]], [[2,1, null], [null, null, 5], [6,7,null]]],
+        [[[5,null, null], [null, null, null], [null, null, 2]], [[1,null,8], [5,null,3], [null, 9,null]], [[null, null, 9], [null, null, null ], [5,null, null]]]
+        ];
+        window.addEventListener('load', function() {
+            rows = document.getElementById("outer").rows;
+            for (i = 0; i < 3; i++) {
+                row = rows[i];
+                for (j = 0; j < 3; j++) {
+                    outerCol = row.cells[j]
+                    innerTableRows = outerCol.childNodes[1].rows
+                    for (ii = 0; ii < 3; ii++) {
+                        innerRow = innerTableRows[ii]
+                        for (jj = 0; jj < 3; jj++) {
+                            if ((value = data[i][j][ii][jj]) != undefined) {
+                                innerRow.cells[jj].innerHTML = value;
+                                innerRow.cells[jj].classList.add('fixed');
+                            } else {
+                                innerRow.cells[jj].innerHTML = null;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function clicked(button) {
+            var value = button.innerHTML;
+            if (button.classList[0] != 'fixed') {
+                value = alterValue(value);
+                button.innerHTML = value;
+                validateBlock(button, value);
+            }
+        }
+
+        function validateBlock(button, value) {
+            var parentTable = button.parentElement.parentElement;
+            var buttonRow = button.parentElement.rowIndex;
+            var buttonCol = button.cellIndex;
+            for (ii = 0; ii < 3; ii++) {
+                innerRow = parentTable.rows[ii]
+                for (jj = 0; jj < 3; jj++) {
+                    if (innerRow.cells[jj].innerHTML != '' && innerRow.cells[jj].innerHTML != undefined && (ii != buttonRow || jj != buttonCol)) {
+                        if (parseInt(innerRow.cells[jj].innerHTML) == parseInt(value)) {
+                            button.classList.add('invalid');
+                            return;
+                        }
+                     }
+                }
+            }
+            button.classList.remove('invalid');
+
+        }
+
+        function getAllBlockValues(button, parentTable) {
+            var valueArray = [];
+            for (ii = 0; ii < 3; ii++) {
+                innerRow = parentTable.rows[ii]
+                for (jj = 0; jj < 3; jj++) {
+                    if (innerRow.cells[jj].innerHTML != '' && innerRow.cells[jj].innerHTML != undefined) {
+                        valueArray.push(innerRow.cells[jj].innerHTML);
+                     }
+                }
+            }
+            return valueArray;
+        }
+
+        function alterValue(value) {
+            if (value != undefined && value != '') {
+                if (parseInt(value) != 9) {
+                    return parseInt(value) + 1;
+                } else return 1;
+            } else {
+                return 1;
+            }
+
+        }
+    </script>
+</head>
+<body>
+<table id="outer">
+    <tr>
+        <td>
+            <table class="inner">
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+
+            </table>
+        </td>
+        <td>
+            <table class="inner">
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+
+            </table>
+        </td>
+        <td>
+            <table class="inner">
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table class="inner">
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+
+            </table>
+        </td>
+        <td>
+            <table class="inner">
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+
+            </table>
+        </td>
+        <td>
+            <table class="inner">
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table class="inner">
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+
+            </table>
+        </td>
+        <td>
+            <table class="inner">
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+
+            </table>
+        </td>
+        <td>
+            <table class="inner">
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                    <td onclick="clicked(this)"></td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+
+</table>
+</body>
+</html>
